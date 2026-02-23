@@ -3,6 +3,9 @@ import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "@/components/templates/DashboardLayout";
 import LoginPage from "@/pages/LoginPage";
 import HomePage from "@/pages/HomePage";
+import ProductListPage from "@/pages/ProductListPage";
+import ProductDetailPage from "@/pages/ProductDetailPage";
+import ProductFormPage from "@/pages/ProductFormPage";
 
 export default function AppRoutes() {
   return (
@@ -11,6 +14,10 @@ export default function AppRoutes() {
       <Route element={<PrivateRoute />}>
         <Route element={<DashboardLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/products" element={<ProductListPage />} />
+          <Route path="/products/add" element={<ProductFormPage />} />
+          <Route path="/products/:id" element={<ProductDetailPage />} />
+          <Route path="/products/:id/edit" element={<ProductFormPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
