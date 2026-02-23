@@ -89,7 +89,7 @@ export default function ProductListPage() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
             {products.map((product) => (
               <ProductCard key={product.id} product={product} onEdit={handleOpenEdit} onDelete={handleDelete} />
             ))}
@@ -98,7 +98,7 @@ export default function ProductListPage() {
           {products.length === 0 && <p className="text-center text-gray-400 py-12">Tidak ada produk ditemukan.</p>}
 
           {totalPages > 1 && (
-            <div className="flex justify-center gap-2 mt-8">
+            <div className="flex justify-center flex-wrap gap-2 mt-8">
               {Array.from({ length: Math.min(totalPages, 10) }, (_, i) => i + 1).map((page) => (
                 <button key={page} onClick={() => goToPage(page)} className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors cursor-pointer ${page === currentPage ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}>
                   {page}

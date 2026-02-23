@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import type { Product } from "@/types/product";
 import Button from "@/components/atoms/Button";
+import { Eye, Pencil, Trash2 } from "lucide-react";
 
 interface ProductCardProps {
   product: Product;
@@ -13,7 +14,7 @@ export default function ProductCard({ product, onEdit, onDelete }: ProductCardPr
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
-      <img src={product.thumbnail} alt={product.title} className="w-full h-48 object-cover" />
+      <img src={product.thumbnail} alt={product.title} className="w-full object-cover aspect-square" />
       <div className="p-4">
         <p className="text-xs text-blue-600 font-medium uppercase mb-1">{product.category}</p>
         <h3 className="font-semibold text-gray-800 mb-1 truncate">{product.title}</h3>
@@ -22,14 +23,14 @@ export default function ProductCard({ product, onEdit, onDelete }: ProductCardPr
           ⭐ {product.rating} · Stock: {product.stock}
         </p>
 
-        <div className="flex gap-2">
-          <Button variant="secondary" className="flex-1 text-sm" onClick={() => navigate(`/products/${product.id}`)}>
+        <div className="grid grid-cols-3 gap-2">
+          <Button variant="secondary" icon={Eye} className="flex-1 text-sm" onClick={() => navigate(`/products/${product.id}`)}>
             Detail
           </Button>
-          <Button variant="secondary" className="flex-1 text-sm" onClick={() => onEdit(product)}>
+          <Button variant="secondary" icon={Pencil} className="flex-1 text-sm" onClick={() => onEdit(product)}>
             Edit
           </Button>
-          <Button variant="danger" className="text-sm" onClick={() => onDelete(product.id)}>
+          <Button variant="danger" icon={Trash2} className="text-sm" onClick={() => onDelete(product.id)}>
             Hapus
           </Button>
         </div>
