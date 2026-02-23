@@ -23,7 +23,7 @@ export default function ProductCard({ product, onEdit, onDelete }: ProductCardPr
           ⭐ {product.rating} · Stock: {product.stock}
         </p>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className="flex gap-2">
           <Button variant="secondary" icon={Eye} className="flex-1 text-sm" onClick={() => navigate(`/products/${product.id}`)}>
             Detail
           </Button>

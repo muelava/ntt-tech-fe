@@ -1,11 +1,12 @@
 import { useEffect, useCallback, useState } from "react";
+import { motion } from "motion/react";
 import { useProductStore } from "@/stores/useProductStore";
 import SearchBar from "@/components/molecules/SearchBar";
 import ProductCard from "@/components/molecules/ProductCard";
+import ProductCardSkeleton from "@/components/molecules/ProductCardSkeleton";
 import ProductForm from "@/components/organisms/ProductForm";
 import Modal from "@/components/atoms/Modal";
 import Button from "@/components/atoms/Button";
-import Spinner from "@/components/atoms/Spinner";
 import type { Product, ProductFormData } from "@/types/product";
 
 export default function ProductListPage() {
@@ -84,14 +85,18 @@ export default function ProductListPage() {
       </div>
 
       {loading ? (
-        <div className="flex justify-center py-12">
-          <Spinner className="h-8 w-8" />
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <ProductCardSkeleton key={i} />
+          ))}
         </div>
       ) : (
         <>
           <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} onEdit={handleOpenEdit} onDelete={handleDelete} />
+            {products.map((product, i) => (
+              <motion.div key={product.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3, delay: i * 0.05 }}>
+                <ProductCard product={product} onEdit={handleOpenEdit} onDelete={handleDelete} />
+              </motion.div>
             ))}
           </div>
 
