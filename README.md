@@ -1,73 +1,73 @@
-# React + TypeScript + Vite
+# NTT Tech FE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Mini project dashboard menggunakan React + TypeScript dengan fitur autentikasi dan CRUD produk.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** + TypeScript
+- **Vite** — build tool
+- **TailwindCSS v4** — styling
+- **Zustand** — state management
+- **React Router v7** — routing
+- **Axios** — HTTP client
 
-## React Compiler
+## Fitur
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- 🔐 Login / Logout (JWT)
+- 🏠 Dashboard dengan sidebar & navbar
+- 📦 Product CRUD (List, Search, Detail, Add, Edit, Delete)
+- 🔒 Protected routes
+- 🧩 Reusable components (Atomic Design)
 
-## Expanding the ESLint configuration
+## Design Pattern
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Menggunakan **Atomic Design** pattern:
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/
+│   ├── atoms/          # Button, Input, Label, Spinner
+│   ├── molecules/      # InputField, SearchBar, ProductCard
+│   ├── organisms/      # Sidebar, Navbar, ProductForm
+│   └── templates/      # DashboardLayout
+├── pages/              # LoginPage, HomePage, Product pages
+├── stores/             # Zustand stores (auth, product)
+├── services/           # API layer (axios)
+├── types/              # TypeScript interfaces
+└── routes/             # Route definitions & guards
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Getting Started
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Prerequisites
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Node.js >= 18
+- pnpm
+
+### Install & Run
+
+```bash
+pnpm install
+pnpm dev
 ```
+
+Buka [http://localhost:5173](http://localhost:5173)
+
+### Build
+
+```bash
+pnpm build
+```
+
+## Demo Account
+
+| Username | Password   |
+| -------- | ---------- |
+| emilys   | emilyspass |
+
+## API
+
+Menggunakan [DummyJSON](https://dummyjson.com) sebagai REST API:
+
+- Auth: `https://dummyjson.com/auth/login`
+- Products: `https://dummyjson.com/products`
