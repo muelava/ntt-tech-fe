@@ -4,10 +4,11 @@ import Button from "@/components/atoms/Button";
 
 interface ProductCardProps {
   product: Product;
+  onEdit: (product: Product) => void;
   onDelete: (id: number) => void;
 }
 
-export default function ProductCard({ product, onDelete }: ProductCardProps) {
+export default function ProductCard({ product, onEdit, onDelete }: ProductCardProps) {
   const navigate = useNavigate();
 
   return (
@@ -25,7 +26,7 @@ export default function ProductCard({ product, onDelete }: ProductCardProps) {
           <Button variant="secondary" className="flex-1 text-sm" onClick={() => navigate(`/products/${product.id}`)}>
             Detail
           </Button>
-          <Button variant="secondary" className="flex-1 text-sm" onClick={() => navigate(`/products/${product.id}/edit`)}>
+          <Button variant="secondary" className="flex-1 text-sm" onClick={() => onEdit(product)}>
             Edit
           </Button>
           <Button variant="danger" className="text-sm" onClick={() => onDelete(product.id)}>

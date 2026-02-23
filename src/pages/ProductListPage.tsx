@@ -1,14 +1,17 @@
-import { useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useCallback, useState } from "react";
 import { useProductStore } from "@/stores/useProductStore";
 import SearchBar from "@/components/molecules/SearchBar";
 import ProductCard from "@/components/molecules/ProductCard";
+import ProductForm from "@/components/organisms/ProductForm";
+import Modal from "@/components/atoms/Modal";
 import Button from "@/components/atoms/Button";
 import Spinner from "@/components/atoms/Spinner";
+import type { Product, ProductFormData } from "@/types/product";
 
 export default function ProductListPage() {
-  const navigate = useNavigate();
-  const { products, total, skip, limit, loading, fetchProducts, searchProducts, deleteProduct } = useProductStore();
+  const { products, total, skip, limit, loading, fetchProducts, searchProducts, addProduct, updateProduct, deleteProduct } = useProductStore();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -31,6 +34,37 @@ export default function ProductListPage() {
     }
   };
 
+  const handleOpenAdd = () => {
+    setEditingProduct(null);
+    setModalOpen(true);
+  };
+
+  const handleOpenEdit = (product: Product) => {
+    setEditingProduct(product);
+    setModalOpen(true);
+  };
+
+  const handleSubmit = async (data: ProductFormData) => {
+    if (editingProduct) {
+      await updateProduct(editingProduct.id, data);
+    } else {
+      await addProduct(data);
+    }
+    setModalOpen(false);
+    setEditingProduct(null);
+  };
+
+  const initialData: ProductFormData | undefined = editingProduct
+    ? {
+        title: editingProduct.title,
+        description: editingProduct.description,
+        category: editingProduct.category,
+        price: editingProduct.price,
+        brand: editingProduct.brand,
+        stock: editingProduct.stock,
+      }
+    : undefined;
+
   const totalPages = Math.ceil(total / limit);
   const currentPage = Math.floor(skip / limit) + 1;
 
@@ -42,7 +76,7 @@ export default function ProductListPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Products</h2>
-        <Button onClick={() => navigate("/products/add")}>+ Tambah</Button>
+        <Button onClick={handleOpenAdd}>+ Tambah</Button>
       </div>
 
       <div className="mb-6">
@@ -57,7 +91,7 @@ export default function ProductListPage() {
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {products.map((product) => (
-              <ProductCard key={product.id} product={product} onDelete={handleDelete} />
+              <ProductCard key={product.id} product={product} onEdit={handleOpenEdit} onDelete={handleDelete} />
             ))}
           </div>
 
@@ -74,6 +108,17 @@ export default function ProductListPage() {
           )}
         </>
       )}
+
+      <Modal
+        isOpen={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+          setEditingProduct(null);
+        }}
+        title={editingProduct ? "Edit Product" : "Tambah Product"}
+      >
+        <ProductForm key={editingProduct?.id ?? "add"} initialData={initialData} onSubmit={handleSubmit} isLoading={loading} />
+      </Modal>
     </div>
   );
 }
