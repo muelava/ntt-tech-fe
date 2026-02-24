@@ -1,6 +1,5 @@
-import { NavLink, useNavigate } from "react-router-dom";
-import { Home, Package, LogOut, X } from "lucide-react";
-import { useAuthStore } from "@/stores/useAuthStore";
+import { NavLink } from "react-router-dom";
+import { Home, Package, X } from "lucide-react";
 import { useSidebarStore } from "@/stores/useSidebarStore";
 
 const menuItems = [
@@ -9,14 +8,7 @@ const menuItems = [
 ];
 
 export default function Sidebar() {
-  const navigate = useNavigate();
-  const logout = useAuthStore((s) => s.logout);
   const { isOpen, close } = useSidebarStore();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/login");
-  };
 
   const handleNavClick = () => {
     close();
@@ -34,7 +26,7 @@ export default function Sidebar() {
         ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
       `}
       >
-        <div className="px-6 py-5  flex items-center justify-between">
+        <div className="px-6 py-5 flex items-center justify-between">
           <h2 className="text-xl font-bold text-blue-600">NTT Tech</h2>
           <button onClick={close} className="lg:hidden text-gray-400 hover:text-gray-600 cursor-pointer">
             <X size={20} />
@@ -49,13 +41,6 @@ export default function Sidebar() {
             </NavLink>
           ))}
         </nav>
-
-        <div className="px-4 py-4 border-t border-gray-200">
-          <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors w-full cursor-pointer">
-            <LogOut size={18} />
-            Logout
-          </button>
-        </div>
       </aside>
     </>
   );

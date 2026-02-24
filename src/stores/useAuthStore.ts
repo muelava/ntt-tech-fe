@@ -9,6 +9,7 @@ interface AuthState {
   isLoading: boolean;
   error: string | null;
   login: (username: string, password: string) => Promise<void>;
+  fetchUser: () => Promise<void>;
   logout: () => void;
   clearError: () => void;
 }
@@ -37,6 +38,17 @@ export const useAuthStore = create<AuthState>((set) => ({
         error: "Username atau password salah",
         isLoading: false,
       });
+    }
+  },
+
+  fetchUser: async () => {
+    try {
+      const user = await authService.getCurrentUser();
+      set({ user });
+    } catch {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      set({ user: null, token: null, isAuthenticated: false });
     }
   },
 

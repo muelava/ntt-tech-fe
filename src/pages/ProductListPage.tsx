@@ -6,6 +6,7 @@ import ProductCard from "@/components/molecules/ProductCard";
 import ProductCardSkeleton from "@/components/molecules/ProductCardSkeleton";
 import ProductForm from "@/components/organisms/ProductForm";
 import Modal from "@/components/atoms/Modal";
+import ConfirmDialog from "@/components/atoms/ConfirmDialog";
 import Button from "@/components/atoms/Button";
 import type { Product, ProductFormData } from "@/types/product";
 
@@ -13,6 +14,7 @@ export default function ProductListPage() {
   const { products, total, skip, limit, loading, fetchProducts, searchProducts, addProduct, updateProduct, deleteProduct } = useProductStore();
   const [modalOpen, setModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [deleteId, setDeleteId] = useState<number | null>(null);
 
   useEffect(() => {
     fetchProducts();
@@ -29,9 +31,14 @@ export default function ProductListPage() {
     [searchProducts, fetchProducts],
   );
 
-  const handleDelete = async (id: number) => {
-    if (window.confirm("Yakin ingin menghapus produk ini?")) {
-      await deleteProduct(id);
+  const handleDelete = (id: number) => {
+    setDeleteId(id);
+  };
+
+  const confirmDelete = async () => {
+    if (deleteId !== null) {
+      await deleteProduct(deleteId);
+      setDeleteId(null);
     }
   };
 
@@ -124,6 +131,8 @@ export default function ProductListPage() {
       >
         <ProductForm key={editingProduct?.id ?? "add"} initialData={initialData} onSubmit={handleSubmit} isLoading={loading} />
       </Modal>
+
+      <ConfirmDialog isOpen={deleteId !== null} title="Hapus Produk" message="Apakah kamu yakin ingin menghapus produk ini?" confirmLabel="Hapus" cancelLabel="Batal" variant="danger" onConfirm={confirmDelete} onCancel={() => setDeleteId(null)} />
     </div>
   );
 }
