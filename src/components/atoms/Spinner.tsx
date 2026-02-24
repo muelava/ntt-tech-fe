@@ -1,3 +1,3 @@
 export default function Spinner({ className = "" }: { className?: string }) {
-  return <div className={`animate-spin rounded-full border-2 border-gray-300 border-t-blue-600 h-5 w-5 ${className}`} />;
+  return <div className={`animate-spin rounded-full border-2 border-gray-300 border-t-violet-600 h-5 w-5 ${className}`} />;
 }

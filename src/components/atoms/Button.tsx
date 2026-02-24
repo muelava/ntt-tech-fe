@@ -13,7 +13,7 @@ export default function Button({ children, variant = "primary", icon: Icon, isLo
   const sizing = hasIcon ? "p-2 md:px-4 md:py-2" : "px-4 py-2";
 
   const variants = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700",
+    primary: "bg-violet-600 text-white hover:bg-violet-700",
     secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300",
     danger: "bg-red-600 text-white hover:bg-red-700",
   };

@@ -17,8 +17,8 @@ export default function SearchBar({ onSearch, placeholder = "Cari..." }: SearchB
   }, [query, onSearch]);
 
   return (
-    <div className="w-full max-w-sm">
-      <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder={placeholder} />
+    <div className="w-full">
+      <Input className="border-0 border-b rounded-none" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={placeholder} />
     </div>
   );
 }

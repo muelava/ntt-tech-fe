@@ -107,15 +107,31 @@ export default function ProductListPage() {
             ))}
           </div>
 
-          {products.length === 0 && <p className="text-center text-gray-400 py-12">Tidak ada produk ditemukan.</p>}
+          {products.length === 0 && (
+            <>
+              <div className="flex flex-col items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" className="size-40" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 22h6c5 0 7-2 7-7V9c0-5-2-7-7-7H9C4 2 2 4 2 9v6c0 5 2 7 7 7Z" stroke="#eaeaea" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
+                  <path d="M7 8.75c1-1 2.63-1 3.64 0M13.36 8.75c1-1 2.63-1 3.64 0M8.4 17.7h7.2c.5 0 .9-.4.9-.9 0-2.49-2.01-4.5-4.5-4.5s-4.5 2.01-4.5 4.5c0 .5.4.9.9.9Z" stroke="#eaeaea" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"></path>
+                </svg>
+                <p className="text-center text-gray-400 py-12">Tidak ada produk ditemukan.</p>
+              </div>
+            </>
+          )}
 
           {totalPages > 1 && (
-            <div className="flex justify-center flex-wrap gap-2 mt-8">
+            <div className="flex justify-center items-center flex-wrap gap-2 mt-8">
+              <button onClick={() => goToPage(currentPage - 1)} disabled={currentPage === 1} className="px-3 py-1 rounded-lg text-sm font-medium transition-colors cursor-pointer bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-40 disabled:cursor-not-allowed">
+                ←
+              </button>
               {Array.from({ length: Math.min(totalPages, 10) }, (_, i) => i + 1).map((page) => (
-                <button key={page} onClick={() => goToPage(page)} className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors cursor-pointer ${page === currentPage ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}>
+                <button key={page} onClick={() => goToPage(page)} className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors cursor-pointer ${page === currentPage ? "bg-violet-600 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}>
                   {page}
                 </button>
               ))}
+              <button onClick={() => goToPage(currentPage + 1)} disabled={currentPage === totalPages} className="px-3 py-1 rounded-lg text-sm font-medium transition-colors cursor-pointer bg-gray-200 text-gray-700 hover:bg-gray-300 disabled:opacity-40 disabled:cursor-not-allowed">
+                →
+              </button>
             </div>
           )}
         </>

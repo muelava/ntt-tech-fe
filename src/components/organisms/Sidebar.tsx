@@ -27,7 +27,7 @@ export default function Sidebar() {
       `}
       >
         <div className="px-6 py-5 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-blue-600">NTT Tech</h2>
+          <h2 className="text-xl font-bold text-violet-600">My Dashboard</h2>
           <button onClick={close} className="lg:hidden text-gray-400 hover:text-gray-600 cursor-pointer">
             <X size={20} />
           </button>
@@ -35,7 +35,7 @@ export default function Sidebar() {
 
         <nav className="flex-1 px-4 py-4 space-y-1">
           {menuItems.map((item) => (
-            <NavLink key={item.path} to={item.path} end={item.path === "/"} onClick={handleNavClick} className={({ isActive }) => `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive ? "bg-blue-50 text-blue-700" : "text-gray-600 hover:bg-gray-100"}`}>
+            <NavLink key={item.path} to={item.path} end={item.path === "/"} onClick={handleNavClick} className={({ isActive }) => `flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${isActive ? "bg-violet-50 text-violet-700" : "text-gray-600 hover:bg-gray-100"}`}>
               <item.icon size={18} />
               {item.label}
             </NavLink>
