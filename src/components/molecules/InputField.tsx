@@ -10,13 +10,14 @@ interface InputFieldProps {
   name?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
+  autoFocus?: boolean;
 }
 
-export default function InputField({ label, error, id, name, onChange, placeholder, ...inputProps }: InputFieldProps) {
+export default function InputField({ label, error, id, name, onChange, placeholder, autoFocus, ...inputProps }: InputFieldProps) {
   return (
     <div className="mb-4">
       <Label htmlFor={id}>{label}</Label>
-      <Input id={id} name={name} onChange={onChange} placeholder={placeholder} {...inputProps} />
+      <Input id={id} name={name} onChange={onChange} placeholder={placeholder} {...inputProps} autoFocus={autoFocus} />
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );

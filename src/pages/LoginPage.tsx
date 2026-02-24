@@ -82,7 +82,7 @@ export default function LoginPage() {
         {error && <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-4 text-sm">{error}</div>}
 
         <form onSubmit={handleSubmit}>
-          <InputField id="username" label="Username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Masukkan username" />
+          <InputField id="username" label="Username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Masukkan username" autoFocus />
           <InputField id="password" label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Masukkan password" />
           <Button type="submit" isLoading={isLoading} className="w-full mt-2">
             Login
