@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
+import { GoeyToaster } from "goey-toast";
 import AppRoutes from "@/routes/AppRoutes";
 import { useAuthStore } from "@/stores/useAuthStore";
 
@@ -16,6 +17,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <GoeyToaster position="top-center" />
       <AppRoutes />
     </BrowserRouter>
   );

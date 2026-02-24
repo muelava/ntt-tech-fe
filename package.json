@@ -13,6 +13,8 @@
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
     "axios": "^1.13.5",
+    "framer-motion": "^12.34.3",
+    "goey-toast": "^0.2.0",
     "lucide-react": "^0.575.0",
     "motion": "^12.34.3",
     "react": "^19.2.0",

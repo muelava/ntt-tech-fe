@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { goeyToast } from "goey-toast";
 import type { Product, ProductFormData } from "@/types/product";
 import { productService } from "@/services/productService";
 
@@ -66,8 +67,10 @@ export const useProductStore = create<ProductState>((set, get) => ({
         products: [product, ...state.products],
         loading: false,
       }));
+      goeyToast.success("Produk berhasil ditambahkan");
     } catch {
       set({ error: "Gagal menambah produk", loading: false });
+      goeyToast.error("Gagal menambah produk");
     }
   },
 
@@ -80,8 +83,10 @@ export const useProductStore = create<ProductState>((set, get) => ({
         selectedProduct: get().selectedProduct?.id === id ? { ...get().selectedProduct!, ...updated } : get().selectedProduct,
         loading: false,
       }));
+      goeyToast.success("Produk berhasil diupdate");
     } catch {
       set({ error: "Gagal mengupdate produk", loading: false });
+      goeyToast.error("Gagal mengupdate produk");
     }
   },
 
@@ -94,8 +99,10 @@ export const useProductStore = create<ProductState>((set, get) => ({
         total: state.total - 1,
         loading: false,
       }));
+      goeyToast.success("Produk berhasil dihapus");
     } catch {
       set({ error: "Gagal menghapus produk", loading: false });
+      goeyToast.error("Gagal menghapus produk");
     }
   },
 

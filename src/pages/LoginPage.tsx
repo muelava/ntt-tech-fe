@@ -1,17 +1,18 @@
-import { useState, useCallback, useMemo, type FormEvent } from "react";
+import { useState, useCallback, useMemo, useEffect, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
+import { goeyToast } from "goey-toast";
 import { useAuthStore } from "@/stores/useAuthStore";
 import InputField from "@/components/molecules/InputField";
 import Button from "@/components/atoms/Button";
-import { useEffect } from "react";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { login, isLoading, error, clearError } = useAuthStore();
+  const { login, isLoading, clearError } = useAuthStore();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [hasError, setHasError] = useState(false);
   const [particlesReady, setParticlesReady] = useState(false);
 
   useEffect(() => {
@@ -66,10 +67,20 @@ export default function LoginPage() {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     clearError();
+    setHasError(false);
     await login(username, password);
-    if (useAuthStore.getState().isAuthenticated) {
+    const state = useAuthStore.getState();
+    if (state.isAuthenticated) {
       navigate("/");
+    } else if (state.error) {
+      setHasError(true);
+      goeyToast.error("Login Gagal", { description: state.error });
     }
+  };
+
+  const handleChange = (setter: (v: string) => void) => (e: React.ChangeEvent<HTMLInputElement>) => {
+    setter(e.target.value);
+    if (hasError) setHasError(false);
   };
 
   return (
@@ -79,11 +90,9 @@ export default function LoginPage() {
       <div className="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg p-8">
         <h1 className="text-2xl font-bold text-center mb-6">Selamat Datang Kembali</h1>
 
-        {error && <div className="bg-red-50 text-red-600 px-4 py-3 rounded-lg mb-4 text-sm">{error}</div>}
-
         <form onSubmit={handleSubmit}>
-          <InputField id="username" label="Username" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Masukkan username" autoFocus />
-          <InputField id="password" label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Masukkan password" />
+          <InputField id="username" label="Username" value={username} onChange={handleChange(setUsername)} placeholder="Masukkan username" autoFocus error={hasError ? " " : undefined} />
+          <InputField id="password" label="Password" type="password" value={password} onChange={handleChange(setPassword)} placeholder="Masukkan password" error={hasError ? " " : undefined} />
           <Button type="submit" isLoading={isLoading} className="w-full mt-2">
             Login
           </Button>

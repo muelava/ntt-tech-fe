@@ -17,7 +17,7 @@ export default function InputField({ label, error, id, name, onChange, placehold
   return (
     <div className="mb-4">
       <Label htmlFor={id}>{label}</Label>
-      <Input id={id} name={name} onChange={onChange} placeholder={placeholder} {...inputProps} autoFocus={autoFocus} />
+      <Input id={id} name={name} onChange={onChange} placeholder={placeholder} {...inputProps} autoFocus={autoFocus} error={error ? true : false} />
       {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
     </div>
   );
