@@ -1,22 +1,43 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useProductStore } from "@/stores/useProductStore";
 import Button from "@/components/atoms/Button";
+import Modal from "@/components/atoms/Modal";
+import ProductForm from "@/components/organisms/ProductForm";
 import ProductDetailSkeleton from "@/components/molecules/ProductDetailSkeleton";
+import type { ProductFormData } from "@/types/product";
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { selectedProduct: product, loading, fetchProduct, clearSelected } = useProductStore();
+  const { selectedProduct: product, loading, fetchProduct, updateProduct, clearSelected } = useProductStore();
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     if (id) fetchProduct(Number(id));
     return () => clearSelected();
   }, [id, fetchProduct, clearSelected]);
 
+  const handleSubmit = async (data: ProductFormData) => {
+    if (product) {
+      await updateProduct(product.id, data);
+      setModalOpen(false);
+      fetchProduct(product.id);
+    }
+  };
+
   if (loading || !product) {
     return <ProductDetailSkeleton />;
   }
+
+  const initialData: ProductFormData = {
+    title: product.title,
+    description: product.description,
+    category: product.category,
+    price: product.price,
+    brand: product.brand,
+    stock: product.stock,
+  };
 
   return (
     <div>
@@ -43,7 +64,7 @@ export default function ProductDetailPage() {
             </div>
 
             <div className="flex gap-2">
-              <Button onClick={() => navigate(`/products/${product.id}/edit`)}>Edit</Button>
+              <Button onClick={() => setModalOpen(true)}>Edit</Button>
             </div>
           </div>
         </div>
@@ -65,6 +86,10 @@ export default function ProductDetailPage() {
           </div>
         )}
       </div>
+
+      <Modal isOpen={modalOpen} onClose={() => setModalOpen(false)} title="Edit Product">
+        <ProductForm initialData={initialData} onSubmit={handleSubmit} isLoading={loading} />
+      </Modal>
     </div>
   );
 }

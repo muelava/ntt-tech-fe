@@ -5,6 +5,8 @@ import { loadSlim } from "@tsparticles/slim";
 import { goeyToast } from "goey-toast";
 import { useAuthStore } from "@/stores/useAuthStore";
 import InputField from "@/components/molecules/InputField";
+import Label from "@/components/atoms/Label";
+import PasswordInput from "@/components/atoms/PasswordInput";
 import Button from "@/components/atoms/Button";
 
 export default function LoginPage() {
@@ -92,7 +94,10 @@ export default function LoginPage() {
 
         <form onSubmit={handleSubmit}>
           <InputField id="username" label="Username" value={username} onChange={handleChange(setUsername)} placeholder="Masukkan username" autoFocus error={hasError ? " " : undefined} />
-          <InputField id="password" label="Password" type="password" value={password} onChange={handleChange(setPassword)} placeholder="Masukkan password" error={hasError ? " " : undefined} />
+          <div className="mb-4">
+            <Label htmlFor="password">Password</Label>
+            <PasswordInput id="password" value={password} onChange={handleChange(setPassword)} placeholder="Masukkan password" error={!!hasError} />
+          </div>
           <Button type="submit" isLoading={isLoading} className="w-full mt-2">
             Login
           </Button>
